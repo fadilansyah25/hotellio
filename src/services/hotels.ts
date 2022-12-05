@@ -1,57 +1,89 @@
 import axios from 'axios';
 
-const options = {
-  method: 'GET',
-  url: 'https://hotels-com-provider.p.rapidapi.com/v1/destinations/search',
-  headers: {
-    'X-RapidAPI-Key': '30d5052e18msh220c9f1c40fb7a1p1fe981jsn9eed10efcd5e',
-    'X-RapidAPI-Host': 'hotels-com-provider.p.rapidapi.com',
-  },
+const headers = {
+  'X-RapidAPI-Key': '30d5052e18msh220c9f1c40fb7a1p1fe981jsn9eed10efcd5e',
+  'X-RapidAPI-Host': 'hotels-com-provider.p.rapidapi.com',
 };
 
-export const getDestinations = async (destinations: string) => {
+export const getRegions = async (
+  query: string,
+  locale: string = 'en_GB',
+  domain: string = 'ID',
+) => {
   try {
-    const res = await axios.get(options.url, {
-      headers: options.headers,
-      params: {query: destinations, currency: 'IDR', locale: 'in_ID'},
-    });
+    const response = await axios.get(
+      `https://hotels-com-provider.p.rapidapi.com/v2/regions`,
+      {
+        params: {locale: locale, query: query, domain: domain},
+        headers: headers,
+      },
+    );
 
-    return mergeResultDes(res.data)
+    const result = response.data as RegionRes;
+    return result.data;
   } catch (error) {
-    console.error(error);
+    return error;
   }
 };
 
-export type Destinations = {
-  caption: string;
-  destinationId: string;
-  geoId: string;
-  landmarkCityDestinationId: string;
-  latitude: number;
-  longitude: number;
-  name: string;
+export const getSearchHotel = async (
+  regionId: number,
+  checkin: string,
+  checkout: string,
+  guest: number,
+  locale: string = 'en_GB',
+  domain: string = 'ID',
+  sortOrder: 'REVIEW' | 'PRICE_LOW_TO_HIGH' = 'REVIEW',
+) => {
+  try {
+    const response = await axios.get(
+      `https://hotels-com-provider.p.rapidapi.com/v2/hotels/search`,
+      {
+        params: {
+          checkin_date: checkin,
+          locale: locale,
+          domain: domain,
+          checkout_date: checkout,
+          region_id: regionId,
+          sort_order: sortOrder,
+          adults_number: guest,
+          page_number: 1,
+        },
+        headers: headers,
+      },
+    );
+
+    return response.data?.properties;
+  } catch (error) {
+    return error;
+  }
+};
+
+type RegionRes = {
+  query: 'string';
+  data: Array<Region>;
+};
+
+export type Region = {
+  gaiaId: number;
   type: string;
-};
-
-type Result = {
-  query: string;
-  suggestions: Array<{
-    group: string;
-    entities: Array<Destinations>;
-  }>;
-};
-
-const mergeResultDes = (result: Result) => {
-  let destinations: Array<Destinations> = [];
-  if (result.suggestions) {
-    result.suggestions.forEach(item => {
-      item.entities.forEach(item => {
-        item.caption = item.caption.replace(/<\/?span[^>]*>/g, '');
-      });
-
-      destinations = [...destinations, ...item.entities];
-    });
-  }
-
-  return destinations;
+  regionNames: {
+    fullName: string;
+    shortName: string;
+    displayName: string;
+    primaryDisplayName: string;
+    secondaryDisplayName: string;
+    lastSearchName: string;
+  };
+  essId: {
+    sourceName: string;
+    sourceId: string;
+    coordinates: {
+      lat: string;
+      long: string;
+    };
+  };
+  hierarchyInfo: {
+    country: {name: string; isoCode2: string; isoCode3: string};
+  };
 };
