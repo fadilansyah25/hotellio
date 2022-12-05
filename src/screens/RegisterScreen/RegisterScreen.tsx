@@ -51,12 +51,7 @@ const RegisterScreen = (screenProps: AuthStackProps) => {
         <View style={{alignItems: 'center'}}>
           <Image
             source={require('../../assets/companylogo.png')}
-            style={{
-              width: '50%',
-              height: 100,
-              resizeMode: 'contain',
-              margin: 30,
-            }}
+            style={styles.imageLogo}
           />
         </View>
         <KeyboardAvoidingView enabled>
@@ -76,7 +71,7 @@ const RegisterScreen = (screenProps: AuthStackProps) => {
                 blurOnSubmit={false}
               />
             </View>
-            <Text style={{color: 'red', marginHorizontal: 35, fontSize: 12}}>
+            <Text style={styles.textWarning}>
               {errorFirstName}
             </Text>
           </View>
@@ -97,7 +92,7 @@ const RegisterScreen = (screenProps: AuthStackProps) => {
                 blurOnSubmit={false}
               />
             </View>
-            <Text style={{color: 'red', marginHorizontal: 35, fontSize: 12}}>
+            <Text style={styles.textWarning}>
               {errorLastName}
             </Text>
           </View>
@@ -118,7 +113,7 @@ const RegisterScreen = (screenProps: AuthStackProps) => {
                 blurOnSubmit={false}
               />
             </View>
-            <Text style={{color: 'red', marginHorizontal: 35, fontSize: 12}}>
+            <Text style={styles.textWarning}>
               {errorEmail}
             </Text>
           </View>
@@ -136,23 +131,16 @@ const RegisterScreen = (screenProps: AuthStackProps) => {
                 blurOnSubmit={false}
               />
             </View>
-            <Text style={{color: 'red', marginHorizontal: 35, fontSize: 12}}>
+            <Text style={styles.textWarning}>
               {errorPassword}
             </Text>
           </View>
           <View
-            style={{
-              marginHorizontal: 35,
-              marginTop: 10,
-              marginBottom: 20,
-              borderWidth: 1,
-              height: 40,
-              justifyContent: 'center',
-              borderColor: '#dadae8',
-            }}>
+            style={styles.pickerContainer}>
             <Picker selectedValue={'Man'} onValueChange={handleGender}>
-              {genderOption.map(item => (
+              {genderOption.map((item, id) => (
                 <Picker.Item
+                  key={id}
                   label={item}
                   value={item}
                   style={styles.pickerItem}

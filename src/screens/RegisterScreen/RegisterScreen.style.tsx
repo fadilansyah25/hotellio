@@ -60,4 +60,24 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.dark,
   },
+  pickerContainer: {
+    marginHorizontal: 35,
+    marginTop: 10,
+    marginBottom: 20,
+    borderWidth: 1,
+    height: 40,
+    justifyContent: 'center',
+    borderColor: '#dadae8',
+  },
+  textWarning: {
+    color: 'red',
+    marginHorizontal: 35,
+    fontSize: 12,
+  },
+  imageLogo: {
+    width: '50%',
+    height: 100,
+    resizeMode: 'contain',
+    margin: 30,
+  },
 });

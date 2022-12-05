@@ -7,10 +7,9 @@ import {
   passwordFormat,
 } from '../../utils/regexFormat';
 
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 import {AuthStackProps} from '../../navigation/StackNavigation/AuthStackScreen';
-import { GenderOption } from '../../utils/types';
+import {GenderOption} from '../../utils/types';
+import {firebaseAuthRegister, firebaseInputUser} from '../../services/firebase';
 
 export const useRegisterScreen = ({navigation}: AuthStackProps) => {
   const [firstName, setFirstName] = useState('');
@@ -30,7 +29,7 @@ export const useRegisterScreen = ({navigation}: AuthStackProps) => {
   const emailInputRef = createRef<TextInput>();
   const passwordInputRef = createRef<TextInput>();
 
-  const handleSubmitButton = () => {
+  const handleSubmitButton = async () => {
     setErrortext('');
     setLoading(true);
     if (
@@ -43,52 +42,30 @@ export const useRegisterScreen = ({navigation}: AuthStackProps) => {
       return;
     }
 
-    auth()
-      .createUserWithEmailAndPassword(userEmail, userPassword)
-      .then(userCredentials => {
-        if (userCredentials.user) {
-          userCredentials.user
-            .updateProfile({
-              displayName: firstName,
-            })
-            .then(user => {
-              console.log(user, 'user added');
-            })
+    await firebaseAuthRegister({email: userEmail, password: userPassword})
+      .then(async credential => {
+        if (credential) {
+          await credential.user
+            .updateProfile({displayName: firstName})
             .catch(error => {
               setLoading(false);
-              console.error(error);
+              setErrortext(error.code);
             });
-
-          firestore()
-            .collection('users')
-            .add({
-              uid: userCredentials.user.uid,
-              firstName,
-              lastName,
-              email: userEmail,
-              gender: userGender,
-            })
-            .then(() => {
-              setLoading(false);
-              console.log('User added!');
-            })
-            .catch(err => {
-              setLoading(false);
-              console.error(err);
-            });
+          await firebaseInputUser({
+            uid: credential.user.uid,
+            email: userEmail,
+            firstName,
+            lastName,
+            gender: userGender,
+          }).catch(error => {
+            setLoading(false);
+            setErrortext(error.code);
+          });
         }
       })
       .catch(error => {
-        if (error.code === 'auth/email-already-in-use') {
-          setLoading(false);
-          console.error('That email address is already in use!');
-        }
-        if (error.code === 'auth/invalid-email') {
-          setLoading(false);
-          console.error('That email address is invalid!');
-        }
         setLoading(false);
-        console.error(error);
+        setErrortext(error.code);
       });
   };
 
@@ -130,7 +107,7 @@ export const useRegisterScreen = ({navigation}: AuthStackProps) => {
     }
   };
 
-  const handleGender = (gender: GenderOption) => setUserGender(gender)
+  const handleGender = (gender: GenderOption) => setUserGender(gender);
 
   const handleToLogin = () => navigation.navigate('Login');
 
@@ -150,6 +127,6 @@ export const useRegisterScreen = ({navigation}: AuthStackProps) => {
     handleEmailInput,
     handlePasswordInput,
     handleGender,
-    handleToLogin
+    handleToLogin,
   } as const;
 };

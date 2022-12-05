@@ -52,16 +52,19 @@ export const App: React.FC = () => {
           <NavigationContainer>
             <RootStack.Navigator
               screenOptions={{headerShown: false}}
-              initialRouteName={"Splash"}>
+              initialRouteName={'Splash'}>
               <RootStack.Screen name="Splash" component={SplashScreen} />
-              <RootStack.Screen
-                name="Auth"
-                component={AuthStackScreen}
-                options={{
-                  animationTypeForReplace: !user ? 'pop' : 'push',
-                }}
-              />
-              <RootStack.Screen name="Main" component={MainTab} />
+              {!user ? (
+                <RootStack.Screen
+                  name="Auth"
+                  component={AuthStackScreen}
+                  options={{
+                    animationTypeForReplace: !user ? 'pop' : 'push',
+                  }}
+                />
+              ) : (
+                <RootStack.Screen name="Main" component={MainTab} />
+              )}
             </RootStack.Navigator>
           </NavigationContainer>
         </BottomSheetModalProvider>
