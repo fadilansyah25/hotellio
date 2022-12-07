@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -6,54 +6,30 @@ import {
   Text,
   ActivityIndicator,
 } from 'react-native';
-
 import HotelCard from '../../components/Cards/HotelCard/HotelCard';
-
-import {getSearchHotel} from '../../services/hotels';
-
 import dayjs from 'dayjs';
 import {colors} from '../../const/colors';
+import {firebase} from '@react-native-firebase/auth';
+import {useWatchList} from '../WatchListsScreen/watchlist.hooks';
+import {HotelItem} from '../../services/hotelItem.types';
+import {useGetSearchHotel} from './ListHotel.hooks';
 import {
   HomeStackProps,
   SearchParams,
 } from '../../navigation/StackNavigation/HomeStackScreen';
-import {firebase} from '@react-native-firebase/auth';
-import {useWatchList} from '../WatchListsScreen/watchlist.hooks';
-import {HotelItem} from '../../services/hotelItem.types';
-
-interface Hotel {
-  id: string;
-}
 
 export default function ListsHotelScreen({navigation, route}: HomeStackProps) {
-  const [data, setData] = useState<HotelItem.Property[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const {data: favorite, isLoading: isLoadingFav} = useWatchList();
-
-  const user = firebase.auth().currentUser;
-
   const {checkIn, checkOut, guests, regionId, regionName} =
     route.params as SearchParams;
 
-  useEffect(() => {
-    if (data.length === 0) {
-      (async () => {
-        try {
-          const data = await getSearchHotel(
-            regionId,
-            checkIn,
-            checkOut,
-            guests,
-          );
-          setData(data as HotelItem.Property[]);
-          setIsLoading(false);
-        } catch (error) {
-          console.error;
-          setIsLoading(false);
-        }
-      })();
-    }
-  }, []);
+  const {data, isLoading} = useGetSearchHotel({
+    checkIn,
+    checkOut,
+    guests,
+    regionId,
+  });
+  const {data: favorite, isLoading: isLoadingFav} = useWatchList();
+  const user = firebase.auth().currentUser;
 
   const handleCardPress = (hotel: HotelItem.Property) => {
     navigation.navigate('HotelDetailHome', hotel);

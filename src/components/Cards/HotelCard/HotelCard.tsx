@@ -64,13 +64,13 @@ export default function HotelCard({
               marginHorizontal: 10,
             }}
             numberOfLines={1}>
-            {item.mapMarker.label}
+            {item?.mapMarker?.label}
           </Text>
         </View>
         <View style={styles.cardRatingStar}>
           <Icon name="ios-star" size={15} color={colors.orange} />
           <Text style={{fontSize: 14, color: colors.white, marginLeft: 5}}>
-            {item.reviews.score} / 10
+            {item?.reviews?.score} / 10
           </Text>
         </View>
         <TouchableOpacity activeOpacity={0.8} onPress={handleCardPress}>
@@ -84,10 +84,10 @@ export default function HotelCard({
             <Text
               numberOfLines={1}
               style={{fontSize: 16, color: colors.primary, fontWeight: '700'}}>
-              {item.name}
+              {item?.name}
             </Text>
             <Text style={{fontSize: 14, overflow: 'hidden'}} numberOfLines={1}>
-              {item.neighborhood.name}
+              {item?.neighborhood?.name}
             </Text>
           </View>
         </TouchableOpacity>

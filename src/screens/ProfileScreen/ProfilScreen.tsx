@@ -14,8 +14,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function ProfileScreen() {
   const {data, loading} = useProfile();
-  console.log(data);
-
   const handleLogOut = () => {
     auth().signOut();
   };
@@ -34,7 +32,7 @@ export default function ProfileScreen() {
               source={require('../../assets/logo2.png')}
               style={{height: 30, width: 110}}
             />
-            <Text style={styles.barText}>Favorite</Text>
+            <Text style={styles.barText}>Profile</Text>
           </View>
 
           {/* Content */}

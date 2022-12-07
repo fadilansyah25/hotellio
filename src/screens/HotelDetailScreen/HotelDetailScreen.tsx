@@ -36,9 +36,6 @@ export default function HotelDetailScreen({route}: WatchListStackProps) {
   const {data, loading} = useGetHotelDetails({hotel_id: hotel.id});
   const navigation = useNavigation<BookedStackProps['navigation']>();
 
-  console.log(data);
-  console.log(hotel);
-
   const handleBooking = () => {
     firebaseInputBooking({
       checkInDate: checkIn,

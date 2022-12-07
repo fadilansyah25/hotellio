@@ -2,26 +2,26 @@ export const destinations = [
   {
     name: 'jakarta',
     imageUrl: require('../assets/jakarta.jpg'),
-    destinationId: '1232121',
+    destinationId: '1704',
   },
   {
     name: 'bali',
     imageUrl: require('../assets/bali.jpg'),
-    destinationId: '1232121',
+    destinationId: '602651',
   },
   {
     name: 'bandung',
     imageUrl: require('../assets/bandung.jpg'),
-    destinationId: '1232121',
+    destinationId: '522',
   },
   {
     name: 'surabaya',
     imageUrl: require('../assets/surabaya.jpg'),
-    destinationId: '1232121',
+    destinationId: '3294',
   },
   {
     name: 'lombok',
     imageUrl: require('../assets/lombok.jpg'),
-    destinationId: '1232121',
+    destinationId: '11999',
   },
 ];

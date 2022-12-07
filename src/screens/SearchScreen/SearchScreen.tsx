@@ -10,47 +10,21 @@ import {
 import {colors} from '../../const/colors';
 import {styles} from './SearchScreen.style';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import dayjs from 'dayjs';
-import {today, tomorrow} from '../../utils/getInitialDate';
-import {useNavigation} from '@react-navigation/native';
-import {HomeStackProps} from '../../navigation/StackNavigation/HomeStackScreen';
-import {getRegions, Region} from '../../services/hotels';
-import useDebounce from '../../hooks/useDebounce';
 import RegionAutoCompItem from '../../components/RegionAutoCompItem/RegionAutoCompItem';
 import BookingForm from '../../components/BookingForm/BookingForm';
+import {useSearchScreen} from './useSearchScreen';
 
 export default function SearchScreen() {
-  const [query, setQuery] = React.useState('');
-  const [checkin, setCheckin] = React.useState(today);
-  const [checkout, setCheckout] = React.useState(tomorrow);
-  const [guest, setGuest] = React.useState(1);
-  const [data, setData] = React.useState<Array<Region>>([]);
-  const navigation = useNavigation<HomeStackProps['navigation']>();
-  const debounce = useDebounce<string>(query, 500);
-
-  const onPressDestItem = (regionId: number, regionName: string) => {
-    navigation.navigate('ListHotel', {
-      regionId,
-      checkIn: dayjs(checkin).format('YYYY-MM-DD'),
-      checkOut: dayjs(checkout).format('YYYY-MM-DD'),
-      guests: guest,
-      regionName: regionName,
-    });
-  };
-
-  React.useEffect(() => {
-    if (query !== '') {
-      (async () => {
-        try {
-          const data = await getRegions(query);
-          setData(data as Array<Region>);
-        } catch (error) {
-          setData([]);
-          console.error;
-        }
-      })();
-    }
-  }, [debounce]);
+  const {
+    navigation,
+    query,
+    data,
+    setCheckin,
+    setCheckout,
+    setGuest,
+    setQuery,
+    onPressDestItem,
+  } = useSearchScreen();
 
   return (
     <SafeAreaView style={styles.screenContainer}>
@@ -69,12 +43,13 @@ export default function SearchScreen() {
           </TouchableOpacity>
           <TextInput
             style={{fontSize: 16, paddingLeft: 20, flex: 1}}
-            placeholder="Cari kota, landmark, atau penginapan"
+            placeholder="Search city, landmark, or hotel"
             value={query}
             onChangeText={text => setQuery(text)}
           />
         </View>
 
+        {/* Booking Form */}
         <BookingForm
           onChange={(ci, co, g) => {
             setCheckin(ci);
