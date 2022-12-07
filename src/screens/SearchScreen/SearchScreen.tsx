@@ -61,18 +61,26 @@ export default function SearchScreen() {
 
       {/* autocomlete results */}
       <ScrollView style={styles.autoCompleteCont}>
-        {data.map((item, id) => (
-          <RegionAutoCompItem
-            regionData={item}
-            key={id}
-            onPress={() =>
-              onPressDestItem(item.gaiaId, item.regionNames.fullName)
-            }
-          />
-        ))}
-        <View>
-          <Text style={{textAlign: 'center'}}>Cities, Landmark</Text>
-        </View>
+        {Array.isArray(data) ? (
+          data.map((item, id) => (
+            <RegionAutoCompItem
+              regionData={item}
+              key={id}
+              onPress={() =>
+                onPressDestItem(item.gaiaId, item.regionNames.fullName)
+              }
+            />
+          ))
+        ) : (
+          <View>
+            <Text style={{textAlign: 'center'}}>Search Not Found</Text>
+          </View>
+        )}
+        {data.length === 0 ? (
+          <View>
+            <Text style={{textAlign: 'center'}}>Cities, Landmark</Text>
+          </View>
+        ) : null}
       </ScrollView>
     </SafeAreaView>
   );

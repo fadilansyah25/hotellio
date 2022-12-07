@@ -24,18 +24,18 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {styles} from './HomeScreen.style';
 import {HotelItem} from '../../services/hotelItem.types';
 import HotelCard from '../../components/Cards/HotelCard/HotelCard';
-import {useWatchList} from '../WatchListsScreen/watchlist.hooks';
 
 export default function HomeScreen() {
   const navigation = useNavigation<HomeStackProps['navigation']>();
   const [dataRecomendation, setDataRecomendation] = React.useState<any[]>([]);
-  const {data: favorite, isLoading: isLoadingFav} = useWatchList();
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     (async () => {
       const snapshot = await firestore().collection('userWatchListHotel').get();
       const data = snapshot.docs.map(doc => doc.data());
       setDataRecomendation(data);
+      setLoading(false);
     })();
   }, []);
 
@@ -72,7 +72,7 @@ export default function HomeScreen() {
       </TouchableOpacity>
 
       {/* Content Container */}
-      {isLoadingFav ? (
+      {loading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" />
         </View>
@@ -99,7 +99,7 @@ export default function HomeScreen() {
               </Text>
               <View style={{marginHorizontal: 20, marginBottom: 150}}>
                 {dataRecomendation.map((item, id) => (
-                  <>
+                  <View key={id}>
                     <HotelCard
                       item={item?.hotel}
                       hotelId={item.hotelId}
@@ -107,10 +107,9 @@ export default function HomeScreen() {
                       onCardPress={(hotel: HotelItem.Property) =>
                         navigation.navigate('HotelDetailHome', hotel)
                       }
-                      dataFav={favorite}
                     />
                     <View style={{height: 25}} />
-                  </>
+                  </View>
                 ))}
               </View>
             </View>

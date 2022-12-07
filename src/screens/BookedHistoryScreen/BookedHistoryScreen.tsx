@@ -14,8 +14,6 @@ import {useBookHistory} from './historyList.hooks';
 export default function BookedHistoryScreen() {
   const {data, isLoading} = useBookHistory();
 
-  console.log(data);
-
   return (
     <SafeAreaView
       style={{
