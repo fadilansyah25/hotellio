@@ -22,7 +22,11 @@ export default function AuthStackScreen() {
       initialRouteName="Login"
       screenOptions={{headerShown: false}}>
       <AuthStack.Screen name="Login" component={LoginScreen} />
-      <AuthStack.Screen name="Register" component={RegisterScreen} />
+      <AuthStack.Screen
+        name="Register"
+        component={RegisterScreen}
+        options={{animation: 'slide_from_right'}}
+      />
     </AuthStack.Navigator>
   );
 }

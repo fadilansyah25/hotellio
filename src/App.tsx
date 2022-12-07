@@ -9,11 +9,7 @@ import {
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
 
-import {Provider} from 'react-redux';
-import {persistedStore, store} from './redux/store';
-import {PersistGate} from 'redux-persist/integration/react';
-
-import MainTab from './navigation/MainTab';
+import MainTab from './navigation/TabNavigation/MainTab';
 import SplashScreen from './screens/SplashScreen/SplashScreen';
 import AuthStackScreen from './navigation/StackNavigation/AuthStackScreen';
 
@@ -46,30 +42,26 @@ export const App: React.FC = () => {
   if (initializing) return null;
 
   return (
-    <Provider store={store}>
-      <PersistGate persistor={persistedStore}>
-        <BottomSheetModalProvider>
-          <NavigationContainer>
-            <RootStack.Navigator
-              screenOptions={{headerShown: false}}
-              initialRouteName={'Splash'}>
-              <RootStack.Screen name="Splash" component={SplashScreen} />
-              {!user ? (
-                <RootStack.Screen
-                  name="Auth"
-                  component={AuthStackScreen}
-                  options={{
-                    animationTypeForReplace: !user ? 'pop' : 'push',
-                  }}
-                />
-              ) : (
-                <RootStack.Screen name="Main" component={MainTab} />
-              )}
-            </RootStack.Navigator>
-          </NavigationContainer>
-        </BottomSheetModalProvider>
-      </PersistGate>
-    </Provider>
+    <BottomSheetModalProvider>
+      <NavigationContainer>
+        <RootStack.Navigator
+          screenOptions={{headerShown: false}}
+          initialRouteName={'Splash'}>
+          <RootStack.Screen name="Splash" component={SplashScreen} />
+          {!user ? (
+            <RootStack.Screen
+              name="Auth"
+              component={AuthStackScreen}
+              options={{
+                animationTypeForReplace: !user ? 'pop' : 'push',
+              }}
+            />
+          ) : (
+            <RootStack.Screen name="Main" component={MainTab} />
+          )}
+        </RootStack.Navigator>
+      </NavigationContainer>
+    </BottomSheetModalProvider>
   );
 };
 

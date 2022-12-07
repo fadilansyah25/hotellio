@@ -1,7 +1,10 @@
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
+import {HotelDetailsTypes} from './hotelDetails.types';
+import {HotelItem} from './hotelItem.types';
 
 const headers = {
-  'X-RapidAPI-Key': '30d5052e18msh220c9f1c40fb7a1p1fe981jsn9eed10efcd5e',
+  'X-RapidAPI-Key': '6f220222b2msh46feae45f7b7ba1p1d5f33jsnb3ea8c3b96bc',
   'X-RapidAPI-Host': 'hotels-com-provider.p.rapidapi.com',
 };
 
@@ -53,10 +56,42 @@ export const getSearchHotel = async (
       },
     );
 
-    return response.data?.properties;
+    return response.data?.properties as HotelItem.Property;
   } catch (error) {
     return error;
   }
+};
+
+export const useGetHotelDetails = ({
+  hotel_id,
+  locale = 'en_GB',
+  domain = 'ID',
+}: {
+  hotel_id: string;
+  locale?: string;
+  domain?: string;
+}) => {
+  const [data, setData] = useState<HotelDetailsTypes.RootObject | undefined>();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<any>(null);
+
+  useEffect(() => {
+    axios
+      .get('https://hotels-com-provider.p.rapidapi.com/v2/hotels/details', {
+        params: {hotel_id, locale, domain},
+        headers: headers,
+      })
+      .then(res => {
+        setData(res.data as HotelDetailsTypes.RootObject);
+        setLoading(false);
+      })
+      .catch(error => {
+        setError(error);
+        setLoading(false);
+      });
+  }, []);
+
+  return {data, loading, error} as const;
 };
 
 type RegionRes = {

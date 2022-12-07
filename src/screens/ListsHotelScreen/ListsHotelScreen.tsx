@@ -1,21 +1,41 @@
-import dayjs from 'dayjs';
-import React from 'react';
-import {FlatList, SafeAreaView, View, Text} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  FlatList,
+  SafeAreaView,
+  View,
+  Text,
+  ActivityIndicator,
+} from 'react-native';
+
 import HotelCard from '../../components/Cards/HotelCard/HotelCard';
+
+import {getSearchHotel} from '../../services/hotels';
+
+import dayjs from 'dayjs';
 import {colors} from '../../const/colors';
 import {
   HomeStackProps,
   SearchParams,
 } from '../../navigation/StackNavigation/HomeStackScreen';
-import {getSearchHotel} from '../../services/hotels';
+import {firebase} from '@react-native-firebase/auth';
+import {useWatchList} from '../WatchListsScreen/watchlist.hooks';
+import {HotelItem} from '../../services/hotelItem.types';
 
-export default function ListsHotelScreen({route}: HomeStackProps) {
+interface Hotel {
+  id: string;
+}
+
+export default function ListsHotelScreen({navigation, route}: HomeStackProps) {
+  const [data, setData] = useState<HotelItem.Property[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const {data: favorite, isLoading: isLoadingFav} = useWatchList();
+
+  const user = firebase.auth().currentUser;
+
   const {checkIn, checkOut, guests, regionId, regionName} =
     route.params as SearchParams;
-  const [data, setData] = React.useState([]);
-  console.log(data);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (data.length === 0) {
       (async () => {
         try {
@@ -25,13 +45,19 @@ export default function ListsHotelScreen({route}: HomeStackProps) {
             checkOut,
             guests,
           );
-          setData(data);
+          setData(data as HotelItem.Property[]);
+          setIsLoading(false);
         } catch (error) {
           console.error;
+          setIsLoading(false);
         }
       })();
     }
   }, []);
+
+  const handleCardPress = (hotel: HotelItem.Property) => {
+    navigation.navigate('HotelDetailHome', hotel);
+  };
 
   return (
     <SafeAreaView
@@ -60,14 +86,33 @@ export default function ListsHotelScreen({route}: HomeStackProps) {
           {dayjs(checkOut).diff(checkIn, 'day')} Night {guests} Person
         </Text>
       </View>
-      <FlatList
-        data={data}
-        renderItem={({item}) => <HotelCard item={item} />}
-        contentContainerStyle={{paddingHorizontal: 20, paddingTop: 10}}
-        showsVerticalScrollIndicator={false}
-        maxToRenderPerBatch={2}
-        ItemSeparatorComponent={() => <View style={{height: 20}} />}
-      />
+      {isLoading || isLoadingFav ? (
+        <View
+          style={{
+            height: '100%',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <ActivityIndicator size={'large'} color={colors.secondary} />
+        </View>
+      ) : (
+        <FlatList
+          data={data}
+          renderItem={({item}) => (
+            <HotelCard
+              item={item}
+              uid={user?.uid as string}
+              hotelId={item.id}
+              dataFav={favorite}
+              onCardPress={handleCardPress}
+            />
+          )}
+          contentContainerStyle={{paddingHorizontal: 20, paddingTop: 10}}
+          showsVerticalScrollIndicator={false}
+          maxToRenderPerBatch={2}
+          ItemSeparatorComponent={() => <View style={{height: 20}} />}
+        />
+      )}
     </SafeAreaView>
   );
 }

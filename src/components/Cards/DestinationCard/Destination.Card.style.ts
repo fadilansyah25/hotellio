@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
   cardContainer: {
     height: cardHeight,
     width: cardWidth,
-    backgroundColor: colors.light,
+    backgroundColor: colors.white,
     marginRight: 10,
     elevation: 10,
     borderRadius: 6,

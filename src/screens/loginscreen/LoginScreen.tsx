@@ -83,11 +83,9 @@ const LoginScreen = (screenProps: AuthStackProps) => {
                   returnKeyType="next"
                 />
               </View>
-              <Text style={styles.SectionStyle}>{errorPassword}</Text>
+              <Text style={styles.textWarning}>{errorPassword}</Text>
             </View>
-            {errortext != '' ? (
-              <Text style={styles.errorTextStyle}>{errortext}</Text>
-            ) : null}
+            <Text style={styles.errorTextStyle}>{errortext}</Text>
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}

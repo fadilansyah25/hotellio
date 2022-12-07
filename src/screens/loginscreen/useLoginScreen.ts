@@ -21,16 +21,25 @@ export const useLoginScreen = ({navigation}: AuthStackProps) => {
       setLoading(false);
       setErrortext('Please enter a valid email and password');
       return;
+    } else if (userEmail === '') {
+      setErrorEmail('Please enter a valid email: eg. example@domain.com');
+      setLoading(false);
+      return;
+    } else if (userPassword === '') {
+      setErrorPassword(
+        'Invalid: Minimum eight characters, at least one letter and one number',
+      );
+      setLoading(false);
+      return;
     }
 
     fireBaseAuthLogin({email: userEmail, password: userPassword})
       .then(() => {
         setLoading(false);
-        navigation.navigate('Main');
       })
       .catch(error => {
-        setLoading(false);
         setErrortext(error.code);
+        setLoading(false);
       });
   };
 
@@ -54,7 +63,10 @@ export const useLoginScreen = ({navigation}: AuthStackProps) => {
     }
   };
 
-  const handleToRegister = () => navigation.navigate('Register');
+  const handleToRegister = () => {
+    setErrortext('');
+    navigation.navigate('Register');
+  };
 
   return {
     loading,
@@ -65,6 +77,6 @@ export const useLoginScreen = ({navigation}: AuthStackProps) => {
     handleEmailInput,
     handlePasswordInput,
     handleToRegister,
-    handleSubmitPress
+    handleSubmitPress,
   } as const;
 };

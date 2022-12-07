@@ -1,15 +1,15 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {colors} from '../const/colors';
-import HomeStackScreen from './StackNavigation/HomeStackScreen';
-import WatchListScreen from '../screens/WatchListsScreen/WatchListScreen';
-import BookedHistoryScreen from '../screens/BookedHistoryScreen/BookedHistoryScreen';
-import SettingsScreen from '../screens/SettingScreeen/SettingScreen';
+import {colors} from '../../const/colors';
+import HomeStackScreen from '../StackNavigation/HomeStackScreen';
+import WatchListStackScreen from '../StackNavigation/WatchListStackScreen';
+import BookedStackScreen from '../StackNavigation/BookedStackScreen';
+import ProfileStackScreen from '../StackNavigation/ProfileStackScreen';
 
 export type RootParamaterList = {
   HomeStack: undefined;
-  SettingStack: undefined;
+  ProfileStack: undefined;
   WatchListStack: undefined;
   BookedHistoryStack: undefined;
 };
@@ -34,8 +34,8 @@ export default function MainTab() {
 
           if (route.name === 'HomeStack') {
             iconName = focused ? 'ios-home' : 'ios-home-outline';
-          } else if (route.name === 'SettingStack') {
-            iconName = focused ? 'ios-settings' : 'ios-settings-outline';
+          } else if (route.name === 'ProfileStack') {
+            iconName = focused ? 'ios-person' : 'ios-person-outline';
           } else if (route.name === 'WatchListStack') {
             iconName = focused ? 'ios-bookmark' : 'ios-bookmark-outline';
           } else if (route.name === 'BookedHistoryStack') {
@@ -43,7 +43,6 @@ export default function MainTab() {
               ? 'ios-file-tray-stacked'
               : 'ios-file-tray-stacked-outline';
           }
-
           return (
             <Ionicons name={iconName as string} size={size} color={color} />
           );
@@ -54,9 +53,9 @@ export default function MainTab() {
         tabBarShowLabel: false,
       })}>
       <Tab.Screen name="HomeStack" component={HomeStackScreen} />
-      <Tab.Screen name="WatchListStack" component={WatchListScreen} />
-      <Tab.Screen name="BookedHistoryStack" component={BookedHistoryScreen} />
-      <Tab.Screen name="SettingStack" component={SettingsScreen} />
+      <Tab.Screen name="WatchListStack" component={WatchListStackScreen} />
+      <Tab.Screen name="BookedHistoryStack" component={BookedStackScreen} />
+      <Tab.Screen name="ProfileStack" component={ProfileStackScreen} />
     </Tab.Navigator>
   );
 }

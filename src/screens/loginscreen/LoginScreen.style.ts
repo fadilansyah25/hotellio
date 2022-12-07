@@ -54,7 +54,7 @@ export const styles = StyleSheet.create({
     color: 'red',
     textAlign: 'center',
     fontSize: 14,
-    marginTop: 20,
+    marginTop: 10
   },
   textWarning: {
     color: 'red',

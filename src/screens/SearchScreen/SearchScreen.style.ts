@@ -16,25 +16,10 @@ export const styles = StyleSheet.create({
       borderColor: colors.primary,
       backgroundColor: colors.white,
     },
-    selectDate: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      flex: 1,
-    },
     autoCompleteCont: {
       paddingHorizontal: 20,
       paddingVertical: 20,
       height: '100%',
       flex: 1,
-    },
-    container: {
-      flex: 1,
-      padding: 24,
-      justifyContent: 'center',
-      backgroundColor: 'white',
-    },
-    contentContainer: {
-      flex: 1,
-      alignItems: 'center',
     },
   });

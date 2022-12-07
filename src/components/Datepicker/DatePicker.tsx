@@ -6,7 +6,6 @@ import {
   DateTimePickerAndroid,
   DateTimePickerEvent,
 } from '@react-native-community/datetimepicker';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import { colors } from '../../const/colors';
 
 interface Props {
