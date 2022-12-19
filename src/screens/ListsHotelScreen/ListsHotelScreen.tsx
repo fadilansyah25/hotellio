@@ -87,6 +87,7 @@ export default function ListsHotelScreen({navigation, route}: HomeStackProps) {
           showsVerticalScrollIndicator={false}
           maxToRenderPerBatch={2}
           ItemSeparatorComponent={() => <View style={{height: 20}} />}
+          initialNumToRender={4}
         />
       )}
     </SafeAreaView>

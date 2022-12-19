@@ -18,7 +18,7 @@ type Props = {
   onCardPress?: (hotel: HotelItem.Property) => void;
 };
 
-export default function HotelCard({
+function HotelCard({
   item,
   uid,
   isFavorite = false,
@@ -105,3 +105,5 @@ export default function HotelCard({
     </TouchableOpacity>
   );
 }
+
+export default React.memo(HotelCard)
