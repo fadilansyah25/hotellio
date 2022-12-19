@@ -33,12 +33,13 @@ export const useRegisterScreen = ({navigation}: AuthStackProps) => {
     setErrortext('');
     setLoading(true);
     if (
-      errorEmail !== '' ||
-      errorPassword !== '' ||
-      errorFirstName !== '' ||
-      errorLastName !== ''
+      errorEmail == '' ||
+      errorPassword == '' ||
+      errorFirstName == '' ||
+      errorLastName == ''
     ) {
       setErrortext('Please enter a valid data');
+      setLoading(false);
       return;
     }
 
@@ -121,6 +122,7 @@ export const useRegisterScreen = ({navigation}: AuthStackProps) => {
     errorEmail,
     errorPassword,
     errortext,
+    userGender,
     handleSubmitButton,
     handleFirstNameInput,
     handleLastNameInput,

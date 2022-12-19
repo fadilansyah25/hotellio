@@ -45,22 +45,22 @@ export default function ProfileScreen() {
               </View>
               <Text style={{textAlign: 'center'}}>Edit Profile</Text>
             </View>
-            <View style={{borderTopWidth: 1}}>
+            <View style={{paddingHorizontal: 20}}>
               <View style={styles.profileItem}>
                 <Text>First Name</Text>
-                <Text>{data[0].firstName}</Text>
+                <Text style={styles.itemText}>{data[0].firstName}</Text>
               </View>
               <View style={styles.profileItem}>
                 <Text>Last Name</Text>
-                <Text>{data[0].lastName}</Text>
+                <Text style={styles.itemText}>{data[0].lastName}</Text>
               </View>
               <View style={styles.profileItem}>
                 <Text>Email</Text>
-                <Text>{data[0].email}</Text>
+                <Text style={styles.itemText}>{data[0].email}</Text>
               </View>
               <View style={styles.profileItem}>
                 <Text>Gender</Text>
-                <Text>{data[0].gender}</Text>
+                <Text style={styles.itemText}>{data[0].gender}</Text>
               </View>
             </View>
           </View>

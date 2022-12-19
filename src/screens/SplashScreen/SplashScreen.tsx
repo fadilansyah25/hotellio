@@ -13,7 +13,7 @@ const SplashScreen = ({navigation}: RootStackProps) => {
       const user = auth().currentUser;
 
       navigation.replace(!user ? 'Auth' : 'Main');
-    }, 1500);
+    }, 1000);
   }, []);
 
   return (

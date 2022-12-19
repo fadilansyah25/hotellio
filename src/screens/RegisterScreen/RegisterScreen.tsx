@@ -30,6 +30,7 @@ const RegisterScreen = (screenProps: AuthStackProps) => {
     errorEmail,
     errorPassword,
     errortext,
+    userGender,
     handleSubmitButton,
     handleFirstNameInput,
     handleLastNameInput,
@@ -71,9 +72,7 @@ const RegisterScreen = (screenProps: AuthStackProps) => {
                 blurOnSubmit={false}
               />
             </View>
-            <Text style={styles.textWarning}>
-              {errorFirstName}
-            </Text>
+            <Text style={styles.textWarning}>{errorFirstName}</Text>
           </View>
           <View>
             <View style={styles.SectionStyle}>
@@ -92,9 +91,7 @@ const RegisterScreen = (screenProps: AuthStackProps) => {
                 blurOnSubmit={false}
               />
             </View>
-            <Text style={styles.textWarning}>
-              {errorLastName}
-            </Text>
+            <Text style={styles.textWarning}>{errorLastName}</Text>
           </View>
           <View>
             <View style={styles.SectionStyle}>
@@ -113,9 +110,7 @@ const RegisterScreen = (screenProps: AuthStackProps) => {
                 blurOnSubmit={false}
               />
             </View>
-            <Text style={styles.textWarning}>
-              {errorEmail}
-            </Text>
+            <Text style={styles.textWarning}>{errorEmail}</Text>
           </View>
           <View>
             <View style={styles.SectionStyle}>
@@ -131,13 +126,10 @@ const RegisterScreen = (screenProps: AuthStackProps) => {
                 blurOnSubmit={false}
               />
             </View>
-            <Text style={styles.textWarning}>
-              {errorPassword}
-            </Text>
+            <Text style={styles.textWarning}>{errorPassword}</Text>
           </View>
-          <View
-            style={styles.pickerContainer}>
-            <Picker selectedValue={'Man'} onValueChange={handleGender}>
+          <View style={styles.pickerContainer}>
+            <Picker selectedValue={userGender} onValueChange={handleGender}>
               {genderOption.map((item, id) => (
                 <Picker.Item
                   key={id}

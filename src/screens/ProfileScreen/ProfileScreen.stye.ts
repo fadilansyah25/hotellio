@@ -28,8 +28,22 @@ export const styles = StyleSheet.create({
   profileItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 18,
+    padding: 10,
     borderBottomWidth: 1,
+    borderColor: colors.primary,
+    backgroundColor: colors.white,
+    marginVertical: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+  },
+  itemText: {
+    fontWeight: '600',
   },
   buttonLogout: {
     backgroundColor: 'red',
