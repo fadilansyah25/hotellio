@@ -1,7 +1,7 @@
 import React from 'react';
 
 import dayjs from 'dayjs';
-import {TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {TouchableOpacity, Text} from 'react-native';
 import {
   DateTimePickerAndroid,
   DateTimePickerEvent,
